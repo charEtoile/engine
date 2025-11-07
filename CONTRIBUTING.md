@@ -29,14 +29,109 @@ git checkout -b feature/your-feature-name
 OIE specifies the working versions of Java and Ant in [.sdkmanrc](./.sdkmanrc). To take advantage of this, install [SDKMAN](https://sdkman.io/) and run `sdk env install`
 in the project's root directory.
 
-### 6. Implement your changes
+### 6. How To Build
+
+The project uses **Apache Ant** as the build system. All build orchestration is managed from the `server` directory.
+
+#### 6.1 Build Commands
+
+This will:
+- Build Donkey (message processing engine)
+- Build Server extensions
+- Build Client
+- Build Manager
+- Build CLI (Command Line Interface)
+- Run all tests
+- Create the complete setup in `server/setup/`
+
+**Full Build (Development)**
+```bash
+cd server
+ant -f mirth-build.xml -DdisableSigning=true
+```
+
+**Full Build (Signed - for releases)**
+```bash
+cd server
+ant -f mirth-build.xml
+```
+
+**Create Distribution Package**
+```bash
+cd server
+ant -f mirth-build.xml dist
+```
+
+#### Packaging
+
+After building, you can create a distribution tarball:
+
+**On Linux (with GNU tar):**
+```bash
+tar czf openintegrationengine.tar.gz -C server/ setup --transform 's|^setup|openintegrationengine/|'
+```
+
+**On macOS (BSD tar - no --transform support):**
+```bash
+cd server
+tar czf ../openintegrationengine.tar.gz setup
+```
+
+Or, to rename the directory in the tarball:
+```bash
+cd server
+cp -r setup openintegrationengine
+tar czf ../openintegrationengine.tar.gz openintegrationengine
+rm -rf openintegrationengine
+```
+
+Alternatively, install GNU tar on macOS:
+```bash
+brew install gnu-tar
+gtar czf openintegrationengine.tar.gz -C server/ setup --transform 's|^setup|openintegrationengine/|'
+```
+
+#### Build Individual Components
+
+If needed, you can build specific components separately:
+
+```bash
+# Build Donkey only
+cd donkey
+ant build
+
+# Build Server only  
+cd server
+ant compile
+
+# Build Client only
+cd client
+ant -f ant-build.xml build
+
+# Build CLI only
+cd command
+ant build
+
+# Build Manager only
+cd manager
+ant -f ant-build.xml build
+```
+
+#### Build Output
+
+After a successful build, you'll find:
+- **`server/setup/`** - Complete application setup ready to run
+- **`server/build/`** - Build artifacts
+- **`server/dist/`** - Distribution packages (if you ran the `dist` target)
+
+### 7. Implement your changes
 
 Implement the necessary changes, ensuring they align with the project’s coding standards and practices.
 
-### 7. Test Your Changes
+### 8. Test Your Changes
 Before submitting your changes, please ensure that all tests pass and that your changes work as expected in your local environment.
 
-### 8. Submit a Pull Request
+### 9. Submit a Pull Request
 Once your changes are ready, push them to your fork and create a **draft pull request (PR)** from your branch to the `main` branch of the project. Draft PRs help indicate that the work is in progress.  
 Mark the PR as **"Ready for review"** only when it is actually complete and ready for feedback. Include a brief description of the changes and reference the related issue.
 
