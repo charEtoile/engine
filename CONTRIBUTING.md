@@ -35,6 +35,14 @@ The project uses **Apache Ant** as the build system. All build orchestration is 
 
 #### 6.1 Build Commands
 
+**Full Build (Development)**
+```bash
+cd server
+ant -f mirth-build.xml -DdisableSigning=true
+```
+
+> **Note:** This build takes approximately 2 minutes 20 seconds on a MacBook Pro M4 Pro.
+
 This will:
 - Build Donkey (message processing engine)
 - Build Server extensions
@@ -44,11 +52,15 @@ This will:
 - Run all tests
 - Create the complete setup in `server/setup/`
 
-**Full Build (Development)**
+**Fast Build (Skip Tests)**
 ```bash
 cd server
-ant -f mirth-build.xml -DdisableSigning=true
+ant -f mirth-build.xml -DdisableSigning=true -DdisableTests=true
 ```
+
+> **Note:** This build takes approximately 10-11 seconds on a MacBook Pro M4 Pro.
+
+Use this for faster builds during development when you don't need to run the full test suite.
 
 **Full Build (Signed - for releases)**
 ```bash
