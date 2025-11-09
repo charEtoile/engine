@@ -254,7 +254,7 @@ public class UserEditPanel extends javax.swing.JPanel {
         	if (country.getSelectedItem().equals(DEFAULT_OPTION)) {
         		return "Country field is required to validate phone number.";
         	} else {
-        		if (!validatePhoneNumber(phone.getText(), getKeyFromValue(countryMap, country.getSelectedItem()).toString())) {
+        		if (!validatePhoneNumber(phone.getText(), getCountryCodeSafe(country.getSelectedItem()))) {
             		return "The phone number is invalid for the given Country and/or State/Territory.";
         		}
         	}
@@ -541,7 +541,7 @@ public class UserEditPanel extends javax.swing.JPanel {
 
     private void phoneKeyReleased(KeyEvent evt) {
     	// this commented code will add the country code in front of the phone number - like +1 for the US
-    	phone.setText(formatPhoneNumber(phone.getText(), getKeyFromValue(countryMap, country.getSelectedItem()).toString()));
+    	phone.setText(formatPhoneNumber(phone.getText(), getCountryCodeSafe(country.getSelectedItem())));
         checkAndTriggerFinishButton(evt);
     }
 
@@ -553,7 +553,7 @@ public class UserEditPanel extends javax.swing.JPanel {
                 stateTerritory.getModel().setSelectedItem(DEFAULT_OPTION);
         		stateTerritory.setEnabled(false);
         	}
-        	phone.setText(formatPhoneNumber(phone.getText(), getKeyFromValue(countryMap, country.getSelectedItem()).toString()));
+        	phone.setText(formatPhoneNumber(phone.getText(), getCountryCodeSafe(country.getSelectedItem())));
             checkIfAbleToFinish();
         }
     }
@@ -583,6 +583,16 @@ public class UserEditPanel extends javax.swing.JPanel {
     		}
     	}
     	return null;
+    }
+    
+    /**
+     * Safely gets the country code from the countryMap, handling null values.
+     * @param value The country display name from the combo box
+     * @return The country code string, or empty string if not found
+     */
+    private String getCountryCodeSafe(Object value) {
+        Object key = getKeyFromValue(countryMap, value);
+        return key != null ? key.toString() : "";
     }
 
     private JPasswordField confirmPassword;
