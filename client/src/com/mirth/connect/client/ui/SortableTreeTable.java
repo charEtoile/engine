@@ -135,6 +135,15 @@ public class SortableTreeTable extends JXTreeTable {
         sortModel.setSortOptions(sortModel.getColumnName(columnIndex), order);
     }
 
+    @Override
+    public boolean isHierarchical(int column) {
+        // Handle invalid column index that can occur with macOS accessibility
+        if (column < 0 || column >= getColumnCount()) {
+            return false;
+        }
+        return super.isHierarchical(column);
+    }
+
     // ======================================================= private methods
 
     private void getSortParams() {

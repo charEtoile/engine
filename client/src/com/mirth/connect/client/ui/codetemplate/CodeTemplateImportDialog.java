@@ -283,6 +283,15 @@ public class CodeTemplateImportDialog extends MirthDialog {
                     return super.getCellEditor(row, column);
                 }
             }
+
+            @Override
+            public boolean isHierarchical(int column) {
+                // Handle invalid column index that can occur with macOS accessibility
+                if (column < 0 || column >= getColumnCount()) {
+                    return false;
+                }
+                return super.isHierarchical(column);
+            }
         };
 
         importTreeTable.setLargeModel(true);
