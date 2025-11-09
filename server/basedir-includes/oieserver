@@ -42,7 +42,7 @@
 # =============================================================================
 
 APP_ARGS=("$@")
-MIN_JAVA_VERSION=17
+MIN_JAVA_VERSION=21
 
 # Set OIE_HOME to the script directory
 OIE_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
