@@ -1,4 +1,6 @@
 # Enable auto-env through the sdkman_auto_env config
 # Add key=value pairs of SDKs to use below
-java=8.0.442.fx-zulu
+# Align build JDK with runtime requirement (server launcher enforces >=21)
+# Using JavaFX-enabled JDK for client GUI support
+java=21.0.9.fx-zulu
 ant=1.10.14
