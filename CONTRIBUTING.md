@@ -74,6 +74,77 @@ cd server
 ant -f mirth-build.xml dist
 ```
 
+### 7. How To Run
+
+After building, the complete application is available in `server/setup/`.
+
+#### Running the Server
+
+The server is the core integration engine that processes messages and manages channels:
+
+```bash
+cd server/setup
+./oieserver
+```
+
+You should see output similar to this:
+
+```bash
+Info: Found suitable java version specified by the -java-cmd directive in '/Users/8826/Developer/misc/engine/server/setup/conf/custom.vmoptions'
+Starting Open Integration Engine...
+INFO  2025-11-09 11:28:49.493 [Main Server Thread] com.mirth.connect.server.Mirth: Open Integration Engine 4.5.2 (Built on novembre 9, 2025) server successfully started.
+INFO  2025-11-09 11:28:49.494 [Main Server Thread] com.mirth.connect.server.Mirth: This product was developed by NextGen Healthcare (https://www.nextgen.com) and its contributors (c)2005-2024.
+INFO  2025-11-09 11:28:49.494 [Main Server Thread] com.mirth.connect.server.Mirth: Open Integration Engine contributors (c)2025.
+INFO  2025-11-09 11:28:49.495 [Main Server Thread] com.mirth.connect.server.Mirth: Running OpenJDK 64-Bit Server VM 21.0.9 on Mac OS X (15.6.1, aarch64), derby, with charset UTF-8.
+INFO  2025-11-09 11:28:49.497 [Main Server Thread] com.mirth.connect.server.Mirth: Web server running at http://192.168.1.16:8080/ and https://192.168.1.16:8443/
+```
+
+By default, the server uses the same Java runtime specified in `.sdkmanrc` (currently Java 21 with JavaFX support). The runtime is configured via `conf/custom.vmoptions`.
+
+**Server VM Options:**
+- `oieserver.vmoptions` - Main configuration file (includes other files)
+- `conf/base_includes.vmoptions` - Base JVM settings
+- `conf/default_modules.vmoptions` - Java 9+ module exports/opens
+- `conf/custom.vmoptions` - User customizations (add your `-java-cmd` here)
+
+#### Running the Client
+
+The Administrator client is the GUI for managing the integration engine:
+
+```bash
+cd server/setup
+./oieclient
+```
+
+You should see output similar to this:
+
+```bash
+Info: Found suitable java version specified by the -java-cmd directive in '/Users/8826/Developer/misc/engine/server/setup/oieclient.vmoptions'
+Starting Open Integration Engine Administrator Client...
+```
+After loadingm the client, you will see the login screen:
+![Open Integration Engine login screen](login_screen.png)
+
+After logging in (default username/password: `admin/admin`), you will see the main dashboard:
+![Open Integration Engine dashboard fresh install](dashboard_fresh_install.png)
+
+You can view the About window from the Help menu:
+![Open Integration Engine About window](about_window.png)
+
+
+**Note:** The client was previously launched via Java Web Start (`.jnlp` files), which was deprecated in Java 9 and removed in Java 11. The `oieclient` script replaces this mechanism, avoiding the need for third-party tools like OpenWebStart while providing better control over the Java runtime and JVM options.
+
+The client also uses the Java runtime from `.sdkmanrc` by default, configured via `oieclient.vmoptions`.
+
+**Client VM Options:**
+- `oieclient.vmoptions` - Configuration file (add your `-java-cmd` and JVM options here)
+
+**Note:** Both scripts automatically discover Java in this priority order:
+1. `OIE_JAVA_PATH` environment variable (override)
+2. `-java-cmd` directive in respective `.vmoptions` file (preferred)
+3. `JAVA_HOME` environment variable
+4. `java` command in system PATH
+
 #### Packaging
 
 After building, you can create a distribution tarball:
@@ -136,14 +207,14 @@ After a successful build, you'll find:
 - **`server/build/`** - Build artifacts
 - **`server/dist/`** - Distribution packages (if you ran the `dist` target)
 
-### 7. Implement your changes
+### 8. Implement your changes
 
 Implement the necessary changes, ensuring they align with the project’s coding standards and practices.
 
-### 8. Test Your Changes
+### 9. Test Your Changes
 Before submitting your changes, please ensure that all tests pass and that your changes work as expected in your local environment.
 
-### 9. Submit a Pull Request
+### 10. Submit a Pull Request
 Once your changes are ready, push them to your fork and create a **draft pull request (PR)** from your branch to the `main` branch of the project. Draft PRs help indicate that the work is in progress.  
 Mark the PR as **"Ready for review"** only when it is actually complete and ready for feedback. Include a brief description of the changes and reference the related issue.
 
