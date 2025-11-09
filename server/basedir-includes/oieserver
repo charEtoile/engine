@@ -277,5 +277,4 @@ JAVA_OPTS=("${VMOPTIONS[@]}"
 
 # Launch Open Integration Engine (as this PID with exec)
 echo "Starting Open Integration Engine..."
-echo "$FINAL_JAVA_CMD ${JAVA_OPTS[*]}"
 exec "$FINAL_JAVA_CMD" "${JAVA_OPTS[@]}"
