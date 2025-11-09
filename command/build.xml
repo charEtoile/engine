@@ -72,8 +72,14 @@
 		</javac>
 	</target>
 	
+	<!-- Updated JaCoCo 0.8.12: use new jars instead of legacy jacocoant.jar -->
 	<taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
-		<classpath path="${server}/lib/ant/jacocoant.jar"/>
+		<classpath>
+			<pathelement location="${server}/lib/ant/org.jacoco.ant-0.8.12.jar"/>
+			<pathelement location="${server}/lib/ant/org.jacoco.core-0.8.12.jar"/>
+			<pathelement location="${server}/lib/ant/org.jacoco.report-0.8.12.jar"/>
+			<pathelement location="${server}/lib/ant/org.jacoco.agent-0.8.12.jar"/>
+		</classpath>
 	</taskdef>	
 	
 	<target name="test-run" depends="test-compile">

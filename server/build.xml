@@ -1002,15 +1002,14 @@
 			<fileset dir="${docs}" />
 		</copy>
 
-		<!-- copy basedir files -->
-		<copy todir="${setup}">
-			<fileset dir="${basedir_includes}" />
-		</copy>
+	<!-- copy basedir files -->
+	<copy todir="${setup}">
+		<fileset dir="${basedir_includes}" />
+	</copy>
 
-		<!-- make oieserver script executable on unix platforms -->
-		<chmod file="${setup}/oieserver" perm="755"/>
-
-		<!-- create the server jar -->
+	<!-- make oieserver and oieclient scripts executable on unix platforms -->
+	<chmod file="${setup}/oieserver" perm="755"/>
+	<chmod file="${setup}/oieclient" perm="755"/>		<!-- create the server jar -->
 		<jar destfile="${setup.server.lib}/${server.jar}" basedir="${classes}">
 			<include name="com/mirth/connect/server/**" />
 			<include name="com/mirth/connect/model/**" />
@@ -1286,8 +1285,14 @@
 		</jar>
 	</target>
 	
+	<!-- Updated JaCoCo 0.8.12: use freshly downloaded jars instead of legacy jacocoant.jar -->
 	<taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
-		<classpath path="lib/ant/jacocoant.jar"/>
+		<classpath>
+			<pathelement location="lib/ant/org.jacoco.ant-0.8.12.jar"/>
+			<pathelement location="lib/ant/org.jacoco.core-0.8.12.jar"/>
+			<pathelement location="lib/ant/org.jacoco.report-0.8.12.jar"/>
+			<pathelement location="lib/ant/org.jacoco.agent-0.8.12.jar"/>
+		</classpath>
 	</taskdef>
 	
 	<target name="test-run" depends="test-compile">
