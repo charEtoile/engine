@@ -1,0 +1,37 @@
+# Open Integration Engine Client VM Options
+#
+# This file allows you to specify JVM options for the OIE Administrator Client.
+# 
+# Directives:
+#   -java-cmd <path>        - Specify the Java executable to use (preferred method)
+#   -include-options <file> - Include another vmoptions file
+#   -classpath <path>       - Replace the default classpath
+#   -classpath/a <path>     - Append to the classpath
+#   -classpath/p <path>     - Prepend to the classpath
+#
+# Standard JVM options (memory, GC, debugging, etc.) can be specified directly.
+#
+# Example: Specify Java version
+# -java-cmd /usr/lib/jvm/java-21-openjdk/bin/java
+#
+# Example: Increase maximum heap memory
+# -Xmx1024m
+#
+# Example: Enable remote debugging
+# -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+
+# Use the same Java SDK version as used for building (Java 21 from SDKMAN)
+# This matches .sdkmanrc: java=21.0.5-zulu
+# Specify the Java command to use (optional)
+# If not specified, the script will attempt to find Java automatically
+# This should match the version in .sdkmanrc to ensure build/runtime consistency
+-java-cmd ${HOME}/.sdkman/candidates/java/21.0.9.fx-zulu/bin/java
+
+# Default memory settings (can be overridden below)
+-Xms128m
+-Xmx512m
+
+# Disable JavaFX hardware acceleration (fixes QuantumRenderer errors)
+# The client uses Swing, not JavaFX for the main UI
+-Dprism.order=sw
+-Dprism.verbose=false
